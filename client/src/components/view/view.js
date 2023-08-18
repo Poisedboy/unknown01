@@ -26,12 +26,10 @@ export function View(props){
 
   return (
     <ViewContext.Provider value={ context }>
-      <div className={ Style.view }>
 
         {  props.display 
           && <props.display /> }
 
-      </div>
     </ViewContext.Provider>
   );
 }

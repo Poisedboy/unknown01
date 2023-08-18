@@ -1,0 +1,67 @@
+.fullScreen {
+    padding: 12px 24px;
+    background-color: transparent;
+    border: 1px solid #5C2D8B;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    box-shadow: 5px 5px 0px 0px #D5D3D8;
+    max-width: 430px;
+    min-width: 320px;
+    width: 100%;
+    margin: 0px 20px;
+    background-color: white;
+    border: 2px solid #5B2D8B;
+    border-radius: 15px;
+}
+
+.setTimerContent {
+    padding: 28px 0px;
+}
+
+.selectDuration {
+    width: 100%;
+    margin-bottom: 28px;
+    color:#1A062E;
+    font-family: "Mulish", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.timerTimes {
+    margin: 0px ;
+    color: #5C2D8B;
+    font-family: "Mulish", sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.setTimerContent button {
+    border-bottom: 1px solid #F4F1F9;
+    padding-bottom: 12px;
+}
+   
+.setTimerContent h3 {
+    padding: 7px;
+    text-align: center;
+}
+   
+.setTimerContent button:nth-child(4) {
+    padding-bottom: 15px;
+    border-bottom: none;
+}
+
+.btnContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+}

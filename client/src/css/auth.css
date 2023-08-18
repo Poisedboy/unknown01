@@ -1,0 +1,18 @@
+.authBox{
+    background-color: rgb(217, 217, 217);
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    column-gap: 30px;
+    padding: 5px 100px 5px 15px;
+    cursor: pointer;
+}
+.authText{
+    font-family: 900;
+    font-size: 18px;
+    color: #000000;
+}
+.authLogo{
+    height: 35px;
+    width: 35px;
+}

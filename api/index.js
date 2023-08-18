@@ -1,7 +1,1 @@
-module.exports = [
-
-  require('./auth'),
-  require('./user'),
-  
-];
-  
+module.exports = [require("./auth"), require("./user"), require("./sprint")];

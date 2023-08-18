@@ -1,0 +1,73 @@
+.purpleTimer {
+    font-family: 'Mulish' 'sans-serif';
+    padding: 7px 24px;
+    border: 1px solid #5C2D8B;
+    border-radius: 10px;
+    background-color: #E6D8F3;
+    color: #5C2D8B;
+    text-align: right;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.greenTimer {
+    font-family: 'Mulish' 'sans-serif';
+    padding: 7px 24px;
+    border-radius: 10px;
+    background-color: #1BBC9B;
+    color: #0B8389;
+    text-align: right;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.purpleCircle { 
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #5C2D8B;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.greenCircle { 
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: #0B8389;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.navButton {
+    padding-left: 12px;
+    padding-right: 12px;
+    background-color: transparent;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.purpleFrame {
+    border: 1px solid #5C2D8B;    
+}
+
+.purpleFrame:hover{
+    background-color: #E6D8F3;
+    transition: .5s;
+}
+
+.redFrame {
+    border: 1px solid red;
+    color: red;
+}
+
+.redFrame:hover {
+    background-color: rgb(254, 189, 189);
+    transition: .5s;
+}

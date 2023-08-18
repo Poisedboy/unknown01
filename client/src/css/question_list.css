@@ -1,0 +1,32 @@
+.questionWrapper{
+    transform: translate(0px, -100px);
+    padding: 0 8px;
+}
+.mainTitle{
+    font-size: 28px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 7px;
+}
+.underTitle{
+    color: #000000;
+    margin-bottom: 25px;
+}
+.listBox{
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    row-gap: 8px;
+}
+.checkboxField{
+    display: flex;
+    column-gap: 10px;
+}
+.labelText{
+    font-size: 18px;
+    color: #000000;
+    font-size: 700;
+}
+.customCheckbox{
+    width: 15px;
+}

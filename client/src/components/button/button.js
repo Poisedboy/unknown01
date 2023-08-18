@@ -1,30 +1,27 @@
 /***
-*
-*   BUTTON
-*
-*   PROPS
-*   text: button label
-*   action: callback function executed on click
-*
-**********/
+ *
+ *   BUTTON
+ *
+ *   PROPS
+ *   text: button label
+ *   action: callback function executed on click
+ *
+ **********/
 
-import Style from './button.tailwind.js';
+import Style from "./button.tailwind.js";
 
-export function Button(props){
+export function Button(props) {
+  console.log(props);
 
   return (
-    <button 
-      className={ Style.button }
-      onClick={ e => {
-
+    <button
+      className={Style.button}
+      onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        props.action();
-
-      }}> 
-
-      { props.text }
-
+      }}
+    >
+      {props.text}
     </button>
-  )
+  );
 }

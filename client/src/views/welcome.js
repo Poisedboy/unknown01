@@ -1,33 +1,32 @@
-import { Fragment } from 'react';
-import { Card, Button, Logo } from 'components/lib';
+import "../css/welcome_page.css";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-export function Welcome(props){
+export function StartPage() {
+  const localToken = useSelector((state) => state.userInfo.googleToken);
+  console.log(localToken);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (localToken) {
+      navigate("/note-editor");
+    } else {
+      navigate("/authentication");
+    }
+  };
 
   return (
-    <Fragment>
-
-      <Logo />
-
-      <Card title='Welcome'>
-
-        <p className='mb-4 text-lg font-semibold'>This is a free boilerplate from&nbsp;
-        <a href='https://usegravity.app'>Gravity</a></p>
-
-        <p>The premium boilerplate includes payments, organisations, 
-          user management and much more. Plus, it comes with support.</p>
-
-        <Button text='Get The Full Boilerplate' action={ () => window.open('https://usegravity.app') }/>
-      
-      </Card>
-      <Card title='Getting Started'>
-
-        <ol className='mb-4'>
-          <li>1. Read the <a href='https://github.com/usegravityapp/free-saas-boilerplate#readme'>readme.md</a> file</li>
-          <li>2. Add new views to <code>/client/src/views</code></li>
-          <li>3. Route the views in <code>/routes</code></li>
-        </ol>
-
-      </Card>
-    </Fragment>
-  )
+    <div className="wrapper">
+      <button
+        onClick={handleClick}
+        sx={{
+          backgroundColor: "#6558F5",
+        }}
+        className="customStartBtn"
+        variant="contained"
+      >
+        START WRITTING
+      </button>
+    </div>
+  );
 }
