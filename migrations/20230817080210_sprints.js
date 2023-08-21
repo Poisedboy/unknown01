@@ -9,6 +9,9 @@ exports.up = async function (knex) {
     table.integer("duration").notNullable();
     table.integer("speed").notNullable();
     table.integer("count_words").notNullable();
+    table.string("title").notNullable();
+    table.string("project").notNullable();
+    table.text("emotion").notNullable();
     table.timestamp("created_at").notNullable().defaultTo(knex.fn.now());
     table.integer("user_id").unsigned().references("id").inTable("users");
   });

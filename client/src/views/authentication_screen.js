@@ -6,19 +6,27 @@ import useAPI from "api/serviceApi";
 import { useDispatch, useSelector } from "react-redux";
 import { getToken, getUser } from "redux/userSlice";
 import { useNavigate } from "react-router-dom";
-import { getExpiresIn } from "redux/userSlice";
+import logo from "../components/icons/logo.png";
+import emptyCap from "../components/icons/Group-empty-cap.svg";
+import smallPen from "../components/icons/Group-small-pen.svg";
+import rightShadow from "../components/icons/Group-shadow-right.svg";
+import printMachine from "../components/icons/Group-print-machine.svg";
+import leftShadow from "../components/icons/Group-left-shadow.svg";
+import pen from "../components/icons/Group-pen.svg";
+import cap from "../components/icons/Group-cap.svg";
+import rightHand from "../components/icons/Group-right-hand.svg";
+import leftHand from "../components/icons/Group-left-hand.svg";
 
 export function AuthenticationScreen() {
   const [googleData, setGoogleData] = useState(null);
   const [token, setToken] = useState(null);
-  const [expires, setExpires] = useState(null);
   const [user, setUser] = useState(null);
+  const [isOpen, setCloseModal] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const localToken = useSelector((state) => state.userInfo.googleToken);
-
+  const reduxToken = useSelector((state) => state.userInfo.googleToken);
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => setGoogleData(tokenResponse),
   });
@@ -26,10 +34,9 @@ export function AuthenticationScreen() {
   useEffect(() => {
     if (googleData) {
       setToken(googleData.access_token);
-      setExpires(googleData.expires_in);
     }
   }, [googleData]);
-  console.log(googleData);
+
   useEffect(() => {
     async function getUserInfo() {
       const res = await fetch("https://www.googleapis.com/oauth2/v1/userinfo", {
@@ -45,22 +52,25 @@ export function AuthenticationScreen() {
     }
     getUserInfo();
     dispatch(getToken(token));
-    dispatch(getExpiresIn(expires));
   }, [token]);
 
   useEffect(() => {
     const uploadData = async () => {
       if (user && token) {
         const data = await useAPI.registerUser(user, token);
-        const registeredUser = data.data.user[0];
+        const registeredUser = data.data.user;
         dispatch(getUser(registeredUser));
-        if (registeredUser && localToken) {
+        if (registeredUser && reduxToken) {
           navigate("/note-editor");
         }
       }
     };
     uploadData();
   }, [user]);
+
+  useEffect(() => {
+    setCloseModal(true);
+  }, []);
 
   const handleClick = async () => {
     try {
@@ -71,10 +81,33 @@ export function AuthenticationScreen() {
   };
 
   return (
-    <div className="wrapper">
-      <div onClick={handleClick} className="authBox">
-        <img src={GoogleLogo} className="authLogo" alt="google logo" />
-        <p className="authText">Sign in with Google</p>
+    <div className="container">
+      <div className="content">
+        <img className="logo" src={logo} alt="logo" />
+        <p className="text">Create your free account</p>
+        <div className="pictures">
+          <img src={emptyCap} className="emptyCap" alt="piece of collage" />
+          <img src={smallPen} className="smallPen" alt="piece of collage" />
+          <img
+            src={rightShadow}
+            className="rightShadow"
+            alt="piece of collage"
+          />
+          <img src={leftShadow} className="leftShadow" alt="piece of collage" />
+          <img
+            src={printMachine}
+            className="printMachine"
+            alt="piece of collage"
+          />
+          <img src={pen} className="pen" alt="piece of collage" />
+          <img src={cap} className="cap" alt="piece of collage" />
+          <img src={leftHand} className="leftHand" alt="piece of collage" />
+          <img src={rightHand} className="rightHand" alt="piece of collage" />
+        </div>
+      </div>
+      <div onClick={handleClick} className="signInBtn">
+        <img src={GoogleLogo} alt="google logo" />
+        <p>Sign in with Google</p>
       </div>
     </div>
   );

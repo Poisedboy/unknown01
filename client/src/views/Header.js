@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import fullScreen from "../components/icons/expand.svg";
 import { Modal } from "./Modals/Modal";
 import { Timer } from "./Timer";
+import { AuthenticationScreen } from "./authentication_screen";
+import { useSelector } from "react-redux";
 
 export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const token = useSelector((state) => state.userInfo.googleToken);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -16,7 +19,6 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
 
   const handleFullscreen = () => {
     setIsFullscreen(true);
-    console.log(isFullscreen, "fullscreen");
     const div = document.getElementById("header");
     if (div.requestFullscreen) {
       div.requestFullscreen();
@@ -85,22 +87,26 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
       </nav>
       <div>
         <Modal isOpen={modalOpen} onClose={closeModal}>
-          <div className="modal-content">
-            <div className="setTimerContent">
-              <h3 className="selectDuration">Select Duration</h3>
-              <div className="btnContainer">
-                {timerTimes.map((value) => (
-                  <button
-                    key={value.id}
-                    onClick={() => setValue(value.value)}
-                    className="timerTimes"
-                  >
-                    {value.title}
-                  </button>
-                ))}
+          {token ? (
+            <div className="modal-content">
+              <div className="setTimerContent">
+                <h3 className="selectDuration">Select Duration</h3>
+                <div className="btnContainer">
+                  {timerTimes.map((value) => (
+                    <button
+                      key={value.id}
+                      onClick={() => setValue(value.value)}
+                      className="timerTimes"
+                    >
+                      {value.title}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <AuthenticationScreen />
+          )}
         </Modal>
       </div>
     </div>

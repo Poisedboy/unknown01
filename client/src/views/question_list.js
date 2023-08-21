@@ -11,7 +11,6 @@ export function QuestionList() {
     const checkboxesChecked = Array.from(checkboxes).filter(
       (checkbox) => checkbox.checked
     );
-    console.log(checkboxesChecked);
 
     if (checkboxesChecked.length >= 2) {
       navigate("/note-editor");

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FormField } from "./FormField/FormField";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import deleteBin from "../../components/icons/delete.svg";
 import extremelySadIcon from "../../components/icons/Extremely Sad.png";
 import neutralIcon from "../../components/icons/Neutral.png";
@@ -9,7 +9,12 @@ import sadIcon from "../../components/icons/Emoticon - Sad.png";
 import happyIcon from "../../components/icons/Happy.png";
 import extremelyHappyIcon from "../../components/icons/Extremely Happy.png";
 import close from "../../components/icons/close.svg";
-import { addMetaData, deleteSprint } from "redux/noteEditorSlice";
+import {
+  addMetaData,
+  deleteSprint,
+  calcDurationAndSpeed,
+  postSprint,
+} from "redux/noteEditorSlice";
 
 const smiles = [
   { id: 0, title: "excited", img: extremelyHappyIcon },
@@ -27,6 +32,7 @@ export function SmallFormPage({
   setStatus,
   STATUS,
   type,
+  durationSeconds,
 }) {
   const [form, setForm] = useState({
     title: "",
@@ -35,12 +41,26 @@ export function SmallFormPage({
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(form);
+
+  const speed = useSelector((state) => state.noteEditor.sprint.speed);
+  const userId = useSelector((state) => state.userInfo.user.id);
+  const token = useSelector((state) => state.userInfo.googleToken);
+  const sprint = useSelector((state) => state.noteEditor.sprint);
+
+  useEffect(() => {
+    dispatch(addMetaData({ form, sprintId }));
+  }, [form]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addMetaData({ form, sprintId }));
     if (type === "Save") {
-      navigate("/dashboard");
+      dispatch(
+        calcDurationAndSpeed({ duration: durationSeconds, id: sprintId })
+      );
+      if (speed) {
+        dispatch(postSprint({ sprint, userId, token }));
+        navigate("/dashboard");
+      }
     } else {
       closeModal(false);
       setIsStopped(false);
@@ -55,14 +75,13 @@ export function SmallFormPage({
     }));
   };
 
-  const handleClose = () => {
+  const handleCloseModal = () => {
     closeModal(false);
     setIsStopped(false);
     setStatus(STATUS.STARTED);
   };
 
   const handleDelete = () => {
-    console.log(type, "type");
     if (type === "Edit") {
       setForm(() => {
         return {
@@ -98,7 +117,7 @@ export function SmallFormPage({
                       <img
                         src={close}
                         alt="close"
-                        onClick={handleClose}
+                        onClick={handleCloseModal}
                         style={{ width: "32px", height: "32px" }}
                       />
                     </button>

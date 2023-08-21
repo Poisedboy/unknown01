@@ -11,8 +11,6 @@
 import Style from "./button.tailwind.js";
 
 export function Button(props) {
-  console.log(props);
-
   return (
     <button
       className={Style.button}

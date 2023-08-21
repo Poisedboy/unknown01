@@ -5,7 +5,6 @@ export const userSlice = createSlice({
   initialState: {
     user: {},
     googleToken: "",
-    expiresIn: "",
   },
   reducers: {
     getToken: (state, action) => {
@@ -14,12 +13,13 @@ export const userSlice = createSlice({
     getUser: (state, action) => {
       state.user = action.payload;
     },
-    getExpiresIn: (state, action) => {
-      state.expiresIn = action.payload;
+    deleteUserInfo: (state, action) => {
+      state.user = {};
+      state.googleToken = "";
     },
   },
 });
 
-export const { getUser, getToken, getExpiresIn } = userSlice.actions;
+export const { getUser, getToken, deleteUserInfo } = userSlice.actions;
 
 export default userSlice.reducer;

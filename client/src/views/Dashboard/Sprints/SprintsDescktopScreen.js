@@ -10,10 +10,10 @@ export function SprintsDescktopScreen({ sprint, isActive, setActive }) {
         onClick={() => setActive(sprint.id)}
       >
         <p className="text-[16px] font-[700] font-mulish text-[#1A062E]">
-          {sprint.countWords} words
+          {sprint.count_words} words
         </p>
         <p className="text-[14px] font-[400] font-mulish text-[#1A062E] pb-[18px]">
-          {sprint.metaData.title || "No title"}
+          {sprint.title || "No title"}
         </p>
         <p className="text-[14px] font-[400] font-mulish text-[#1A062E]">
           {sprint.duration} mins

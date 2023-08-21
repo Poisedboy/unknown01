@@ -3,13 +3,15 @@ import React, { useState, useEffect } from "react";
 import { Header } from "views/Header";
 import { useAmountWords } from "hooks/useAmountWords";
 import { nanoid } from "nanoid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   updateCountWords,
   setSprintId,
   inputSprintsText,
-  // addSprint,
 } from "redux/noteEditorSlice";
+import { verifyToken } from "api/verifyToken";
+import { useNavigate } from "react-router-dom";
+import { deleteUserInfo } from "../../redux/userSlice";
 
 const timerTimes = [
   { id: 1, title: "15 Minutes", value: 15 },
@@ -33,6 +35,19 @@ export function NoteEditor() {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // const token = useSelector((state) => state.userInfo.googleToken);
+
+  // useEffect(() => {
+  //   async function validateToken() {
+  //     const session = await verifyToken(token);
+  //     if (!session) {
+  //       dispatch(deleteUserInfo());
+  //       navigate("/");
+  //     }
+  //   }
+  //   validateToken();
+  // }, []);
 
   //setSprint countWords
   let integer = useAmountWords(text);
@@ -55,7 +70,7 @@ export function NoteEditor() {
     const currentSeconds = currentDate.getSeconds();
 
     const date = `${currentYear}-${currentMonth}-${currentDay} ${currentHours}:${currentMinutes}:${currentSeconds}`;
-    console.log(date);
+
     // setSprint created at
     setSprint((prevState) => {
       return { ...prevState, createdAt: date };
@@ -78,7 +93,7 @@ export function NoteEditor() {
     });
     dispatch(inputSprintsText(text));
   }, [text]);
-  console.log(sprint);
+
   useAutosave(sprint);
 
   return (

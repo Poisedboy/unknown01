@@ -5,7 +5,6 @@ const url = "http://localhost:8080";
 const useAPI = {
   registerUser: async (user, token) => {
     try {
-      console.log("token", token);
       const userData = { ...user, token: token };
       const response = await axios.post(`${url}/api/auth`, userData, {
         "Content-Type": "application/json",
@@ -14,30 +13,52 @@ const useAPI = {
       return response;
     } catch (e) {
       console.log("registerUser ", e);
-    } finally {
-      console.log("register user");
     }
   },
   uploadSprint: async (
     sprint = { content: "empty sprint`s content" },
-    userGoogleId = 123
+    userId = 123,
+    token
   ) => {
     try {
-      console.log("userID inside postSprint: ", userGoogleId);
-      console.log("sprint inside postSprint: ", sprint);
-
-      const postingData = { ...sprint, userGoogleId };
+      const postingData = { ...sprint, userId };
 
       const response = await axios.post(`${url}/api/post-sprint`, postingData, {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       });
 
       return response;
     } catch (e) {
       console.log("post Sprint error: ", e);
+    }
+  },
+  fetchSprints: async (userId, token) => {
+    try {
+      const response = await axios.get(`${url}/api/${userId}/sprints`, {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      });
+      return response;
+    } catch (e) {
+      console.log("post Sprint error: ", e);
+    }
+  },
+  sendUpdatedSprint: async (updatedSprint, token) => {
+    try {
+      const response = await axios.put(
+        `${url}/api/update-sprint`,
+        updatedSprint,
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      return response;
+    } catch (e) {
+      console.log("update Sprint error: ", e);
     } finally {
-      console.log("post sprint");
+      console.log("updateSprint");
     }
   },
 };

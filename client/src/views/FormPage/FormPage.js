@@ -16,7 +16,6 @@ import {
 } from "redux/noteEditorSlice";
 import close from "../../components/icons/close.svg";
 import { postSprint } from "redux/noteEditorSlice";
-import { useVerifyGoogle } from "api/utils";
 
 const smiles = [
   { id: 0, title: "excited", img: extremelyHappyIcon },
@@ -45,20 +44,23 @@ export function FormPage({
   const navigate = useNavigate();
 
   const speed = useSelector((state) => state.noteEditor.sprint.speed);
-  const userGoogleId = useSelector((state) => state.userInfo.user.google_id);
-
+  const userId = useSelector((state) => state.userInfo.user.id);
+  const token = useSelector((state) => state.userInfo.googleToken);
   const sprint = useSelector((state) => state.noteEditor.sprint);
+
+  useEffect(() => {
+    dispatch(addMetaData({ form, sprintId }));
+  }, [form]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addMetaData({ form, sprintId }));
     if (type === "Save") {
       dispatch(
         calcDurationAndSpeed({ duration: durationSeconds, id: sprintId })
       );
       if (speed) {
-        dispatch(postSprint({ sprint, userGoogleId }));
-        // navigate("/dashboard");
+        dispatch(postSprint({ sprint, userId, token }));
+        navigate("/dashboard");
       }
     } else {
       closeModal(false);

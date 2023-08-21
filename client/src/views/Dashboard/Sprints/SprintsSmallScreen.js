@@ -10,10 +10,10 @@ export function SprintsSmallScreen({ sprint, setSprintInfo }) {
             className="color-[#1A062E] text-[16px] font-[700] font-mulish"
             onClick={() => setSprintInfo(sprint.id)}
           >
-            {sprint.countWords} words
+            {sprint.count_words} words
           </button>
           <p className="text-[14px] font-[400] font-mulish mb-[18px]">
-            {sprint.metaData.title}
+            {sprint.title}
           </p>
           <p className="text-[14px] font-[400] font-mulish">
             {sprint.duration} mins

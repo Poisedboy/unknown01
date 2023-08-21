@@ -1,7 +1,8 @@
+import { useLocalTime } from "hooks/useLocalTime";
 import pencil from "../../../components/icons/pencil.svg";
 
 export function SprintInfo({ sprint, isActive }) {
-  console.log("speed", sprint);
+  const convertedTime = useLocalTime(sprint.created_at);
   return (
     <>
       {isActive === sprint.id && (
@@ -9,10 +10,10 @@ export function SprintInfo({ sprint, isActive }) {
           <div className="flex justify-between mb-[20px]">
             <div>
               <p className=" font-mulish text-[#5C2D8B] text-[18px] font-[700]">
-                {sprint.metaData.title}
+                {sprint.title}
               </p>
-              <p className="text-[#A6A3A9] text-[18px] font-[700] font-mulish">
-                {sprint.createdAt}
+              <p className="text-[#A6A3A9] text-[14px] font-[400] font-mulish">
+                {convertedTime}
               </p>
             </div>
             <button className="w-[32px] h-[54px] flex items-center">
@@ -29,15 +30,15 @@ export function SprintInfo({ sprint, isActive }) {
                 <p className="text-[#A6A3A9] text-[14px] font-[500] font-mulish">
                   Words
                 </p>
-                <span className="text-[16px] font-[700] font-mulish">
-                  {sprint.countWords}
+                <span className="text-[20px] font-[700] font-mulish">
+                  {sprint.count_words}
                 </span>
               </div>
               <div className="flex justify-center items-center gap-3">
                 <p className="text-[#A6A3A9] text-[14px] font-[500] font-mulish">
                   Duration
                 </p>
-                <span className="flex justify-end text-[16px] font-[700] font-mulish">
+                <span className="flex justify-end text-[20px] font-[700] font-mulish">
                   {sprint.duration}
                 </span>
               </div>
@@ -45,7 +46,7 @@ export function SprintInfo({ sprint, isActive }) {
                 <p className="text-[#A6A3A9] text-[14px] font-[500] font-mulish">
                   Speed
                 </p>
-                <span className="flex justify-end text-[16px] font-[700] font-mulish">
+                <span className="flex justify-end text-[20px] font-[700] font-mulish">
                   {sprint.speed} wpm
                 </span>
               </div>
@@ -59,7 +60,7 @@ export function SprintInfo({ sprint, isActive }) {
               <p className="text-[16px] font-[400] font-mulish">
                 How did you feel?
               </p>
-              <img src={sprint.metaData.emotion} alt="emotion" />
+              <img src={sprint.emotion} alt="emotion" />
             </div>
             <div className="py-10">
               <p className="text-[16px] font-[400] font-mulish">Notes</p>

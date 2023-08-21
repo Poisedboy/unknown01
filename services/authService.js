@@ -1,7 +1,7 @@
 const db = require("../db/db");
+const { OAuth2Client } = require("google-auth-library");
 
 exports.auth = async function (user) {
-  console.log(user);
   try {
     if (user.token) {
       const newUser = {
@@ -12,12 +12,21 @@ exports.auth = async function (user) {
         family_name: user.family_name,
         picture: user.picture,
       };
-      const userFromDB = await db("users").select().where("email", user.email);
+      const userFromDB = await db
+        .select()
+        .from("users")
+        .where("email", user.email)
+        .first();
       if (!userFromDB) {
-        const putUser = await db("users").insert(newUser);
-        return putUser;
+        const putUser = await db.insert(newUser).into("users");
+        const getUser = await db
+          .select()
+          .from("users")
+          .where("id", putUser[0])
+          .first();
+
+        return getUser;
       }
-      console.log("Inside service", userFromDB);
       return userFromDB;
     }
   } catch (e) {

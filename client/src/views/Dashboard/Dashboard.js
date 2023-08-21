@@ -1,17 +1,41 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SprintsSmallScreen } from "./Sprints/SprintsSmallScreen";
 import book from "../../components/icons/outline.svg";
 import { SprintsDescktopScreen } from "./Sprints/SprintsDescktopScreen";
 import { SprintInfo } from "./Sprints/SprintsInfo";
 import { SprintInfoSmall } from "./Sprints/SprintInfoSmall";
 import "../../css/dashboard.css";
+import { getSprints } from "redux/noteEditorSlice";
+import { verifyToken } from "api/verifyToken";
+import { deleteUserInfo } from "redux/userSlice";
+import { useNavigate } from "react-router-dom";
+import logo from "../../components/icons/logo.png";
 
 export function Dashboard() {
   const sprints = useSelector((state) => state.noteEditor.sprints);
+  const userId = useSelector((state) => state.userInfo.user.id);
+  const token = useSelector((state) => state.userInfo.googleToken);
+  const userPhoto = useSelector((state) => state.userInfo.user.picture);
+  const [type, setType] = useState("view");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [isMoblieWidth, setMobileWidth] = useState(false);
   const [isActive, setActive] = useState(null);
   const [isSprintInfo, setSprintInfo] = useState(null);
+
+  useEffect(() => {
+    async function validateToken() {
+      const session = await verifyToken(token);
+      if (!session) {
+        dispatch(deleteUserInfo());
+        navigate("/");
+      }
+    }
+    validateToken();
+  }, []);
 
   useEffect(() => {
     if (window.innerWidth <= 959) {
@@ -19,6 +43,7 @@ export function Dashboard() {
     } else {
       setMobileWidth(false);
     }
+    dispatch(getSprints({ userId, token }));
   }, []);
 
   return (
@@ -29,7 +54,45 @@ export function Dashboard() {
           : "bg-[#F4F4F4] min-h-screen pb-10 lg:flex flex-col items-center"
       }
     >
-      <div className="w-full h-[80px]"></div>
+      <div
+        className={
+          isMoblieWidth
+            ? "w-full h-[80px] p-[20px] flex justify-between items-center"
+            : "w-full h-[80px] p-10 flex justify-end items-center"
+        }
+      >
+        {isMoblieWidth && (
+          <img
+            src={logo}
+            alt="logo"
+            style={{ width: "90px", height: "24px" }}
+          />
+        )}
+        <div
+          className={
+            isMoblieWidth
+              ? "flex items-center gap-[20px]"
+              : "flex justify-end gap-10"
+          }
+        >
+          <button
+            onClick={() => navigate("/note-editor")}
+            className="h-[40px] px-[28px] rounded-[10px] bg-[#5C2D8B] font-mulish text-[18px] font-[700] text-[white]"
+          >
+            Write
+          </button>
+          <img
+            src={userPhoto}
+            alt="user`s photo"
+            style={{
+              width: "39px",
+              height: "39px",
+              borderRadius: "10px",
+              border: "2px solid #1A062E",
+            }}
+          />
+        </div>
+      </div>
       <div
         className={
           isMoblieWidth
@@ -92,6 +155,8 @@ export function Dashboard() {
                     sprint={sprint}
                     isSprintInfo={isSprintInfo}
                     setSprintInfo={setSprintInfo}
+                    type={type}
+                    setType={setType}
                   />
                 )
               );

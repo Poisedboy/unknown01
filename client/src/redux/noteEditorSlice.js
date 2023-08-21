@@ -3,10 +3,33 @@ import useAPI from "api/serviceApi";
 
 export const postSprint = createAsyncThunk(
   "note-editor/postSprint",
-  async ({ sprint, userGoogleId }, thunkAPI) => {
+  async ({ sprint, userId, token }, thunkAPI) => {
     try {
-      const response = await useAPI.uploadSprint(sprint, userGoogleId);
-      console.log(response);
+      const response = await useAPI.uploadSprint(sprint, userId, token);
+      return response;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const getSprints = createAsyncThunk(
+  "note-editor/getSprints",
+  async ({ userId, token }, thunkAPI) => {
+    try {
+      const response = await useAPI.fetchSprints(userId, token);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
+
+export const updateSprint = createAsyncThunk(
+  "note-editor/updateSprint",
+  async ({ updatedSprint, token }, thunkAPI) => {
+    try {
+      const response = await useAPI.sendUpdatedSprint(updatedSprint, token);
       return response;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -24,7 +47,9 @@ export const noteEditorSlice = createSlice({
       duration: 0,
       speed: 0,
       countWords: 0,
-      metaData: {},
+      title: "",
+      project: "",
+      emotion: "",
     },
   },
   reducers: {
@@ -45,7 +70,6 @@ export const noteEditorSlice = createSlice({
     //   }
     // },
     autoUpdateSprint: (state, action) => {
-      console.log(action.payload);
       state.sprint.content = action.payload.content;
     },
     inputSprintsText: (state, action) => {
@@ -55,7 +79,10 @@ export const noteEditorSlice = createSlice({
       const index = state.sprints.findIndex(
         (i) => i.id === action.payload.sprintId
       );
-      state.sprint.metaData = action.payload.form;
+      const { title, project, emotion } = action.payload.form;
+      state.sprint.title = title;
+      state.sprint.project = project;
+      state.sprint.emotion = emotion;
     },
     clearSprintData: (state, action) => {
       state.sprint = {
@@ -71,7 +98,7 @@ export const noteEditorSlice = createSlice({
       const newSpeed = (state.sprint.countWords / seconds) * 60;
 
       state.sprint.speed = newSpeed;
-      state.sprint.duration = seconds <= 60 ? "< 1" : seconds / 60;
+      state.sprint.duration = seconds <= 60 ? 1 : seconds / 60;
     },
     deleteSprint: (state, action) => {
       let newArray = state.sprints.filter(
@@ -81,14 +108,17 @@ export const noteEditorSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(postSprint.pending, (state, action) => {
-      console.log("Posting Sprint on Server");
-    });
-    builder.addCase(postSprint.fulfilled, (state, action) => {
-      console.log(state.sprints);
-    });
     builder.addCase(postSprint.rejected, (state, action) => {
       console.log("Post Sprint Error", action.payload);
+    });
+    builder.addCase(getSprints.fulfilled, (state, action) => {
+      state.sprints = action.payload;
+    });
+    builder.addCase(getSprints.rejected, (state, action) => {
+      console.log("Fetch Sprints Error", action.payload);
+    });
+    builder.addCase(updateSprint.rejected, (state, action) => {
+      console.log("Update Sprint Error", action.payload);
     });
   },
 });
