@@ -15,8 +15,9 @@ import logo from "../../components/icons/logo.png";
 export function Dashboard() {
   const sprints = useSelector((state) => state.noteEditor.sprints);
   const userId = useSelector((state) => state.userInfo.user.id);
-  const token = useSelector((state) => state.userInfo.googleToken);
   const userPhoto = useSelector((state) => state.userInfo.user.picture);
+  const token = localStorage.getItem("token");
+
   const [type, setType] = useState("view");
 
   const dispatch = useDispatch();

@@ -7,7 +7,7 @@ export function QuestionList() {
   const navigate = useNavigate();
 
   const handleCheckboxChange = (e) => {
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('input[type="radio"]');
     const checkboxesChecked = Array.from(checkboxes).filter(
       (checkbox) => checkbox.checked
     );
@@ -18,66 +18,64 @@ export function QuestionList() {
   };
 
   return (
-    <div className="wrapper">
+    <div>
       <div className="questionWrapper">
-        <h3 className="mainTitle">
-          What kind of writting projects will you be using writaa for?
-        </h3>
-        <p className="underTitle">
-          This helps us improve Writaa to better serve you writting needs
-        </p>
+        <p className="mainTitle">You want to use Writaa for</p>
         <div className="listBox">
           <div className="checkboxField">
-            <input
-              id="novel"
-              type="checkbox"
-              className="customCheckbox"
-              disabled={disable}
-              onChange={handleCheckboxChange}
-            />
             <label htmlFor="novel" className="labelText">
               Writting novel
             </label>
-          </div>
-
-          <div className="checkboxField">
             <input
-              id="non-fiction"
-              type="checkbox"
+              id="novel"
+              type="radio"
               className="customCheckbox"
               disabled={disable}
               onChange={handleCheckboxChange}
             />
+          </div>
+
+          <div className="checkboxField">
             <label htmlFor="non-fiction" className="labelText">
               Writting non-fiction
             </label>
-          </div>
-
-          <div className="checkboxField">
             <input
-              id="blog"
-              type="checkbox"
+              id="non-fiction"
+              type="radio"
               className="customCheckbox"
               disabled={disable}
               onChange={handleCheckboxChange}
             />
+          </div>
+
+          <div className="checkboxField">
             <label htmlFor="blog" className="labelText">
               Writting a blog
             </label>
-          </div>
-
-          <div className="checkboxField">
             <input
-              id="other"
-              type="checkbox"
+              id="blog"
+              type="radio"
               className="customCheckbox"
               disabled={disable}
               onChange={handleCheckboxChange}
             />
+          </div>
+
+          <div className="checkboxField">
             <label htmlFor="other" className="labelText">
               Other
             </label>
+            <input
+              id="other"
+              type="radio"
+              className="customCheckbox"
+              disabled={disable}
+              onChange={handleCheckboxChange}
+            />
           </div>
+        </div>
+        <div className="btn">
+          <button>Save</button>
         </div>
       </div>
     </div>

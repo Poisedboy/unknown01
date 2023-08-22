@@ -44,8 +44,8 @@ export function SmallFormPage({
 
   const speed = useSelector((state) => state.noteEditor.sprint.speed);
   const userId = useSelector((state) => state.userInfo.user.id);
-  const token = useSelector((state) => state.userInfo.googleToken);
   const sprint = useSelector((state) => state.noteEditor.sprint);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(addMetaData({ form, sprintId }));

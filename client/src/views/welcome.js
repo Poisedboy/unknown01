@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteUserInfo } from "redux/userSlice";
 import { verifyToken } from "api/verifyToken";
+import { QuestionListHoc } from "./QuestionList/QuestionList";
 
 export function StartPage() {
   const token = useSelector((state) => state.userInfo.googleToken);
@@ -23,11 +24,7 @@ export function StartPage() {
   }, []);
 
   const handleClick = () => {
-    if (token) {
-      navigate("/note-editor");
-    } else {
-      navigate("/note-editor");
-    }
+    navigate("/note-editor");
   };
 
   return (
@@ -42,6 +39,7 @@ export function StartPage() {
       >
         START WRITTING
       </button>
+      <QuestionListHoc />
     </div>
   );
 }

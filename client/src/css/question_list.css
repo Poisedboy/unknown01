@@ -1,12 +1,15 @@
 .questionWrapper{
-    transform: translate(0px, -100px);
-    padding: 0 8px;
+    padding: 28px 0px;
 }
 .mainTitle{
-    font-size: 28px;
+    padding: 0px 28px;
+    margin-bottom: 16px;
+    color: #1A062E;
+    font-family: 'Mulish';
+    font-size: 20px;
+    font-style: normal;
     font-weight: 700;
-    color: #000000;
-    margin-bottom: 7px;
+    line-height: normal;
 }
 .underTitle{
     color: #000000;
@@ -15,12 +18,28 @@
 .listBox{
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
     row-gap: 8px;
+    margin-bottom: 16px;
+}
+.listBox .checkboxField:last-child {
+    border-bottom: 0px solid white;
 }
 .checkboxField{
     display: flex;
+    justify-content: space-between;
     column-gap: 10px;
+    padding: 20px 28px;
+    font-family: 'Mulish';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-bottom: 1px solid gray;
+}
+.checkboxField input[type=checkbox] {
+    color: #5C2D8B;
+    background-color: #5C2D8B; /* Change to desired color when checked */
+    border: 1px solid #5C2D8B;
 }
 .labelText{
     font-size: 18px;
@@ -29,4 +48,22 @@
 }
 .customCheckbox{
     width: 15px;
+}
+
+.btn {
+    width: 100%;
+    text-align: center;
+}
+
+.btn button {
+    height: 30px;
+    padding: 0px 28px;
+    border-radius: 10px;
+    color: white;
+    background: #5C2D8B;
+    font-family: 'Mulish';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
 }

@@ -11,7 +11,8 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const token = useSelector((state) => state.userInfo.googleToken);
+  const token = localStorage.getItem("token");
+  const user = useSelector((state) => state.userInfo.user.id);
 
   const closeModal = () => {
     setModalOpen(false);
@@ -87,7 +88,7 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
       </nav>
       <div>
         <Modal isOpen={modalOpen} onClose={closeModal}>
-          {token ? (
+          {token && user ? (
             <div className="modal-content">
               <div className="setTimerContent">
                 <h3 className="selectDuration">Select Duration</h3>

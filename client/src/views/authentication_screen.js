@@ -16,8 +16,10 @@ import pen from "../components/icons/Group-pen.svg";
 import cap from "../components/icons/Group-cap.svg";
 import rightHand from "../components/icons/Group-right-hand.svg";
 import leftHand from "../components/icons/Group-left-hand.svg";
+import axios from "axios";
 
 export function AuthenticationScreen() {
+  console.log("rerender");
   const [googleData, setGoogleData] = useState(null);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
@@ -26,7 +28,9 @@ export function AuthenticationScreen() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const reduxToken = useSelector((state) => state.userInfo.googleToken);
+  const localToken = localStorage.getItem("token");
+  const reduxUser = useSelector((state) => state.userInfo.user);
+
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => setGoogleData(tokenResponse),
   });
@@ -39,34 +43,44 @@ export function AuthenticationScreen() {
 
   useEffect(() => {
     async function getUserInfo() {
-      const res = await fetch("https://www.googleapis.com/oauth2/v1/userinfo", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      const getData = await res.json();
-      setUser(getData);
+      try {
+        const response = await axios.get(
+          "https://www.googleapis.com/oauth2/v1/userinfo?alt=json",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const userData = response.data;
+        console.log("USERDATAINSIDE", userData);
+        setUser(userData);
+      } catch (error) {
+        console.log("ERROR MESSAGE: ", error);
+      }
     }
     getUserInfo();
-    dispatch(getToken(token));
-  }, [token]);
+    localStorage.setItem("token", token);
+    // dispatch(getToken(token));
+  }, [token, dispatch]);
+  console.log("USER DATA", user);
 
   useEffect(() => {
+    console.log("INSSIDE", localToken);
     const uploadData = async () => {
-      if (user && token) {
+      if (user && localToken) {
         const data = await useAPI.registerUser(user, token);
         const registeredUser = data.data.user;
         dispatch(getUser(registeredUser));
-        if (registeredUser && reduxToken) {
-          navigate("/note-editor");
-        }
+        // if (reduxUser && reduxToken) {
+        //   navigate("/note-editor");
+        // }
       }
     };
     uploadData();
-  }, [user]);
+  }, [user, localToken]);
+  console.log("REDUX USER: ", user);
 
   useEffect(() => {
     setCloseModal(true);

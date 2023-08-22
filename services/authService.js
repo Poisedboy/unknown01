@@ -12,6 +12,7 @@ exports.auth = async function (user) {
         family_name: user.family_name,
         picture: user.picture,
       };
+      console.log(user.email);
       const userFromDB = await db
         .select()
         .from("users")

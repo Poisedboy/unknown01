@@ -4,12 +4,8 @@ export const userSlice = createSlice({
   name: "user",
   initialState: {
     user: {},
-    googleToken: "",
   },
   reducers: {
-    getToken: (state, action) => {
-      state.googleToken = action.payload;
-    },
     getUser: (state, action) => {
       state.user = action.payload;
     },
@@ -20,6 +16,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { getUser, getToken, deleteUserInfo } = userSlice.actions;
+export const { getUser, deleteUserInfo } = userSlice.actions;
 
 export default userSlice.reducer;

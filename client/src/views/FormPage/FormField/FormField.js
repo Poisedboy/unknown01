@@ -9,13 +9,13 @@ export function FormField({
   maxLength,
   id,
 }) {
-  let notes;
-  let printedSymbols;
-  function calculateLetters() {
-    notes = document.getElementById("notes");
-    printedSymbols = notes?.value.length || 0;
-    return printedSymbols === null ? 0 : printedSymbols;
-  }
+  // let notes;
+  // let printedSymbols;
+  // function calculateLetters() {
+  //   notes = document.getElementById("notes");
+  //   printedSymbols = notes?.value.length || 0;
+  //   return printedSymbols === null ? 0 : printedSymbols;
+  // }
   return (
     <div className="flex flex-col text-black m-3">
       <div className="flex justify-between items-center">
