@@ -57,8 +57,23 @@ const useAPI = {
       return response;
     } catch (e) {
       console.log("update Sprint error: ", e);
+    }
+  },
+  postServey: async (options, userId, token) => {
+    try {
+      const response = await axios.put(
+        `${url}/api/post-servey`,
+        { options: options, userId },
+        {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        }
+      );
+      return response;
+    } catch (e) {
+      console.log("post Servey error: ", e);
     } finally {
-      console.log("updateSprint");
+      console.log("POST SERVEY");
     }
   },
 };

@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deleteUserInfo } from "redux/userSlice";
 import { verifyToken } from "api/verifyToken";
-import { QuestionListHoc } from "./QuestionList/QuestionList";
 
 export function StartPage() {
-  const token = useSelector((state) => state.userInfo.googleToken);
+  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,7 +38,6 @@ export function StartPage() {
       >
         START WRITTING
       </button>
-      <QuestionListHoc />
     </div>
   );
 }

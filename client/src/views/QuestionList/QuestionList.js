@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { QuestionListModal } from "views/Modals/QuestionListModal";
 import { QuestionList } from "../question_list";
+import { useSelector } from "react-redux";
 
-export const QuestionListHoc = () => {
+export const QuestionListCalcSize = ({ setServeyInfo }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const serveyOptions = useSelector(
+    (state) => state.userInfo.user.options_servey
+  );
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,22 +23,19 @@ export const QuestionListHoc = () => {
     };
   }, []);
 
-  const openModal = () => {
+  useEffect(() => {
     setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+    if (serveyOptions.lenght > 0) {
+      setServeyInfo(true);
+    }
+  }, []);
 
   return (
-    <QuestionListModal
-      openModal={openModal}
-      closeModal={closeModal}
-      isMobile={isMobile}
-      modalVisible={modalVisible}
-    >
-      <QuestionList />
+    <QuestionListModal isMobile={isMobile} modalVisible={modalVisible}>
+      <QuestionList
+        setServeyInfo={setServeyInfo}
+        setModalVisible={setModalVisible}
+      />
     </QuestionListModal>
   );
 };

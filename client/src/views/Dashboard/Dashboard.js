@@ -39,13 +39,13 @@ export function Dashboard() {
   }, []);
 
   useEffect(() => {
+    dispatch(getSprints({ userId, token }));
     if (window.innerWidth <= 959) {
       setMobileWidth(true);
     } else {
       setMobileWidth(false);
     }
-    dispatch(getSprints({ userId, token }));
-  }, []);
+  }, [sprints.length]);
 
   return (
     <div
@@ -171,6 +171,8 @@ export function Dashboard() {
                   key={sprintInfo.id}
                   isActive={isActive}
                   sprint={sprintInfo}
+                  type={type}
+                  setType={setType}
                 />
               );
             })}

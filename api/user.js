@@ -3,6 +3,6 @@ const api = express.Router();
 const userController = require("../controller/userController");
 const utility = require("../helper/utility");
 
-api.post("/api/user", utility.use(userController.create));
+api.put("/api/post-servey", utility.use(userController.postServey));
 
 module.exports = api;

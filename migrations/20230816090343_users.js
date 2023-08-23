@@ -11,6 +11,7 @@ exports.up = async function (knex) {
     table.string("given_name").notNullable();
     table.string("family_name").notNullable();
     table.string("picture").notNullable();
+    table.string("options_servey").notNullable();
     table.timestamp("date_created").notNullable().defaultTo(knex.fn.now());
   });
 };

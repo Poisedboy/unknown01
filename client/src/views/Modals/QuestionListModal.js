@@ -5,17 +5,10 @@ import { verifyToken } from "../../api/verifyToken";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserInfo } from "redux/userSlice";
 
-export const QuestionListModal = ({
-  openModal,
-  closeModal,
-  isMobile,
-  modalVisible,
-  children,
-}) => {
+export const QuestionListModal = ({ isMobile, modalVisible, children }) => {
   const [session, setSession] = useState(false);
-  const token = useSelector((state) => state.userInfo.googleTokens);
+  const token = localStorage.getItem("token");
 
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,17 +22,8 @@ export const QuestionListModal = ({
     validateToken();
   }, []);
 
-  const handleClick = () => {
-    if (session) {
-      navigate("/note-editor");
-    } else if (!session) {
-      navigate("/");
-    }
-  };
-  console.log("MODAL QUESTION: ", isMobile, modalVisible);
   return (
     <div>
-      <button onClick={openModal}>Open Modal</button>
       {modalVisible && (
         <div
           className={`fixed inset-0 bg-opacity-30 z-50 ${

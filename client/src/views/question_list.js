@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import "../css/question_list.css";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { postServey } from "redux/userSlice";
 
-export function QuestionList() {
+export function QuestionList({ setServeyInfo, setModalVisible }) {
   const [disable, setDisable] = useState(false);
-  const navigate = useNavigate();
+  const [options, setOptions] = useState([]);
+
+  const dispatch = useDispatch();
+  const token = localStorage.getItem("token");
+  const userId = useSelector((state) => state.userInfo.user.id);
 
   const handleCheckboxChange = (e) => {
     const checkboxes = document.querySelectorAll('input[type="radio"]');
     const checkboxesChecked = Array.from(checkboxes).filter(
       (checkbox) => checkbox.checked
     );
+    setOptions((prevState) => {
+      return [...prevState, e.target.id];
+    });
 
     if (checkboxesChecked.length >= 2) {
-      navigate("/note-editor");
+      setDisable(true);
     }
+  };
+
+  const handleSubmit = () => {
+    setServeyInfo(true);
+    setModalVisible(false);
+    dispatch(postServey({ options, userId, token }));
   };
 
   return (
@@ -75,7 +89,7 @@ export function QuestionList() {
           </div>
         </div>
         <div className="btn">
-          <button>Save</button>
+          <button onClick={handleSubmit}>Save</button>
         </div>
       </div>
     </div>

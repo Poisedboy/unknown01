@@ -6,14 +6,19 @@ import { Modal } from "./Modals/Modal";
 import { Timer } from "./Timer";
 import { AuthenticationScreen } from "./authentication_screen";
 import { useSelector } from "react-redux";
+import { QuestionListCalcSize } from "./QuestionList/QuestionList";
 
 export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [serveyInfo, setServeyInfo] = useState(false);
   const token = localStorage.getItem("token");
   const user = useSelector((state) => state.userInfo.user.id);
-
+  const serveyOptions = useSelector(
+    (state) => state.userInfo.user.options_servey
+  );
+  console.log("OPTIONS", serveyOptions);
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -88,7 +93,7 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
       </nav>
       <div>
         <Modal isOpen={modalOpen} onClose={closeModal}>
-          {token && user ? (
+          {token && user && serveyInfo ? (
             <div className="modal-content">
               <div className="setTimerContent">
                 <h3 className="selectDuration">Select Duration</h3>
@@ -105,6 +110,8 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
                 </div>
               </div>
             </div>
+          ) : user ? (
+            <QuestionListCalcSize setServeyInfo={setServeyInfo} />
           ) : (
             <AuthenticationScreen />
           )}

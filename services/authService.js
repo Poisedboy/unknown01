@@ -1,5 +1,4 @@
 const db = require("../db/db");
-const { OAuth2Client } = require("google-auth-library");
 
 exports.auth = async function (user) {
   try {
@@ -11,8 +10,9 @@ exports.auth = async function (user) {
         given_name: user.given_name,
         family_name: user.family_name,
         picture: user.picture,
+        options_servey: "",
       };
-      console.log(user.email);
+
       const userFromDB = await db
         .select()
         .from("users")

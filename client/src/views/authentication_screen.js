@@ -26,10 +26,8 @@ export function AuthenticationScreen() {
   const [isOpen, setCloseModal] = useState(false);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const localToken = localStorage.getItem("token");
-  const reduxUser = useSelector((state) => state.userInfo.user);
 
   const login = useGoogleLogin({
     onSuccess: (tokenResponse) => setGoogleData(tokenResponse),
@@ -62,25 +60,18 @@ export function AuthenticationScreen() {
     }
     getUserInfo();
     localStorage.setItem("token", token);
-    // dispatch(getToken(token));
   }, [token, dispatch]);
-  console.log("USER DATA", user);
 
   useEffect(() => {
-    console.log("INSSIDE", localToken);
     const uploadData = async () => {
       if (user && localToken) {
         const data = await useAPI.registerUser(user, token);
         const registeredUser = data.data.user;
         dispatch(getUser(registeredUser));
-        // if (reduxUser && reduxToken) {
-        //   navigate("/note-editor");
-        // }
       }
     };
     uploadData();
   }, [user, localToken]);
-  console.log("REDUX USER: ", user);
 
   useEffect(() => {
     setCloseModal(true);

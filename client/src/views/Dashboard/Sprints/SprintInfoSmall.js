@@ -2,8 +2,21 @@ import { useEffect, useState } from "react";
 import backArrow from "../../../components/icons/back-arrow.svg";
 import pencil from "../../../components/icons/pencil.svg";
 import { useLocalTime } from "hooks/useLocalTime";
-import { useDispatch, useSelector } from "react-redux";
-import { updateSprint } from "redux/noteEditorSlice";
+import { useDispatch } from "react-redux";
+import { updateSprint, updateLocalSprint } from "redux/noteEditorSlice";
+import extremelySadIcon from "../../../components/icons/Extremely Sad.png";
+import neutralIcon from "../../../components/icons/Neutral.png";
+import sadIcon from "../../../components/icons/Emoticon - Sad.png";
+import happyIcon from "../../../components/icons/Happy.png";
+import extremelyHappyIcon from "../../../components/icons/Extremely Happy.png";
+
+const smiles = [
+  { id: 0, title: "excited", img: extremelyHappyIcon },
+  { id: 1, title: "good", img: happyIcon },
+  { id: 2, title: "normal", img: sadIcon },
+  { id: 3, title: "sad", img: neutralIcon },
+  { id: 4, title: "extremely sad", img: extremelySadIcon },
+];
 
 export function SprintInfoSmall({
   sprint,
@@ -14,11 +27,11 @@ export function SprintInfoSmall({
 }) {
   const [editedSprint, setSprint] = useState({
     title: "",
-    content: "",
+    emotion: "",
     id: "",
     user_id: "",
   });
-  const token = useSelector((state) => state.userInfo.googleToken);
+  const token = localStorage.getItem("token");
 
   const dispatch = useDispatch();
 
@@ -32,7 +45,7 @@ export function SprintInfoSmall({
       return {
         ...prevState,
         title: sprint.title,
-        content: sprint.content,
+        emotion: sprint.emotion,
         id: sprint.id,
         user_id: sprint.user_id,
       };
@@ -47,7 +60,7 @@ export function SprintInfoSmall({
 
   const handleSubmit = () => {
     setType("view");
-
+    dispatch(updateLocalSprint(editedSprint));
     dispatch(updateSprint({ updatedSprint: editedSprint, token }));
   };
 
@@ -128,22 +141,39 @@ export function SprintInfoSmall({
             </div>
             <div className="pb-5 border-b-2 h-[100%] overflow-scroll scrollbar-hide">
               <p className="text-[16px] font-[400] font-mulish">
-                {type === "edit" ? (
-                  <textarea
-                    type="text"
-                    onChange={(e) => handleChange("content", e)}
-                    value={editedSprint.content}
-                  />
-                ) : (
-                  sprint.content
-                )}
+                {sprint.content}
               </p>
             </div>
             <div className="border-b-2 pb-[20px]">
               <p className="text-[16px] font-[400] font-mulish">
                 How did you feel?
               </p>
-              <img src={sprint.emotion} alt="emotion" />
+              {type === "edit" ? (
+                <ul className="flex markers:none">
+                  {smiles.map((smile) => {
+                    return (
+                      <li key={smile.id} className="mr-3">
+                        <button
+                          aria-required
+                          onClick={(e) => {
+                            e.preventDefault();
+                            return setSprint((prevState) => {
+                              return {
+                                ...prevState,
+                                emotion: smile.img,
+                              };
+                            });
+                          }}
+                        >
+                          <img src={smile.img} />
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <img src={sprint.emotion} alt="emotion" />
+              )}
             </div>
             <div className="pb-5">
               <p className="text-[16px] font-[400] font-mulish">Notes</p>

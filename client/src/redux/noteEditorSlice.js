@@ -5,8 +5,8 @@ export const postSprint = createAsyncThunk(
   "note-editor/postSprint",
   async ({ sprint, userId, token }, thunkAPI) => {
     try {
-      const response = await useAPI.uploadSprint(sprint, userId, token);
-      return response;
+      await useAPI.uploadSprint(sprint, userId, token);
+      return sprint;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -18,6 +18,7 @@ export const getSprints = createAsyncThunk(
   async ({ userId, token }, thunkAPI) => {
     try {
       const response = await useAPI.fetchSprints(userId, token);
+      console.log("fetch", response);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -59,16 +60,18 @@ export const noteEditorSlice = createSlice({
     setSprintId: (state, action) => {
       state.sprint.id = action.payload;
     },
-    // addSprint: (state, action) => {
-    //   const existingIndex = state.sprints.findIndex(
-    //     (i) => i.id === action.payload.id
-    //   );
-    //   if (existingIndex !== -1) {
-    //     state.sprints[existingIndex] = action.payload;
-    //   } else {
-    //     state.sprints.push(action.payload);
-    //   }
-    // },
+    updateLocalSprint: (state, action) => {
+      const existingIndex = state.sprints.findIndex(
+        (i) => i.id === action.payload.id
+      );
+      const updateInfo = state.sprints.splice(existingIndex, 1, {
+        ...state.sprints[existingIndex],
+        title: action.payload.title,
+        emtion: action.payload.emtion,
+      });
+      // state.sprints[existingIndex].title = action.payload.title;
+      // state.sprints[existingIndex].emtion = action.payload.emtion;
+    },
     autoUpdateSprint: (state, action) => {
       state.sprint.content = action.payload.content;
     },
@@ -108,6 +111,9 @@ export const noteEditorSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(postSprint.fulfilled, (state, action) => {
+      state.sprints.push(action.payload);
+    });
     builder.addCase(postSprint.rejected, (state, action) => {
       console.log("Post Sprint Error", action.payload);
     });
@@ -127,6 +133,7 @@ export const {
   autoUpdateSprint,
   inputSprintsText,
   updateCountWords,
+  updateLocalSprint,
   setSprintId,
   addMetaData,
   clearSprintData,

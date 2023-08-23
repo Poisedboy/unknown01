@@ -49,7 +49,7 @@ exports.updateSprintInDb = async function (updatedSprint) {
       .andWhere({ user_id: user_id })
       .update({
         title: updatedSprint.title,
-        content: updatedSprint.content,
+        emotion: updatedSprint.emotion,
       });
     return updatedInDb;
   } catch (e) {
