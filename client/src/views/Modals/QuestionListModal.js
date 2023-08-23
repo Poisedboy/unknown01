@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../../css/modal.css";
-import { useNavigate } from "react-router-dom";
 import { verifyToken } from "../../api/verifyToken";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { deleteUserInfo } from "redux/userSlice";
 
 export const QuestionListModal = ({ isMobile, modalVisible, children }) => {
-  const [session, setSession] = useState(false);
   const token = localStorage.getItem("token");
 
   const dispatch = useDispatch();
@@ -14,7 +12,6 @@ export const QuestionListModal = ({ isMobile, modalVisible, children }) => {
   useEffect(() => {
     async function validateToken() {
       const session = await verifyToken(token);
-      setSession(session);
       if (!session) {
         dispatch(deleteUserInfo());
       }
@@ -26,7 +23,7 @@ export const QuestionListModal = ({ isMobile, modalVisible, children }) => {
     <div>
       {modalVisible && (
         <div
-          className={`fixed inset-0 bg-opacity-30 z-50 ${
+          className={`fixed inset-0 z-50 ${
             isMobile ? "top-[156px]" : "flex items-center justify-center"
           }`}
         >

@@ -14,7 +14,6 @@ export function StartPage() {
   useEffect(() => {
     async function validateToken() {
       const session = await verifyToken(token);
-      console.log(session);
       if (!session) {
         dispatch(deleteUserInfo());
       }

@@ -12,10 +12,10 @@ export const QuestionListCalcSize = ({ setServeyInfo }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 959); // Adjust the breakpoint as needed
+      setIsMobile(window.innerWidth <= 959);
     };
 
-    handleResize(); // Initial call to set the initial value
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => {

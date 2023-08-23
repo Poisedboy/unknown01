@@ -17,14 +17,18 @@ export const postServey = createAsyncThunk(
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: {},
+    user: {
+      options_servey: "novel",
+    },
   },
   reducers: {
     getUser: (state, action) => {
       state.user = action.payload;
     },
     deleteUserInfo: (state, action) => {
-      state.user = {};
+      state.user = {
+        options_servey: "novel",
+      };
       localStorage.removeItem("token");
     },
   },

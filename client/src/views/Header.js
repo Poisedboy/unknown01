@@ -6,7 +6,7 @@ import { Modal } from "./Modals/Modal";
 import { Timer } from "./Timer";
 import { AuthenticationScreen } from "./authentication_screen";
 import { useSelector } from "react-redux";
-import { QuestionListCalcSize } from "./QuestionList/QuestionList";
+import { QuestionListCalcSize } from "./QuestionList/QuestionListCalcSize";
 
 export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -18,7 +18,7 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
   const serveyOptions = useSelector(
     (state) => state.userInfo.user.options_servey
   );
-  console.log("OPTIONS", serveyOptions);
+
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -92,8 +92,8 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
         )}
       </nav>
       <div>
-        <Modal isOpen={modalOpen} onClose={closeModal}>
-          {token && user && serveyInfo ? (
+        {(token && user && serveyInfo) || serveyOptions.length > 5 ? (
+          <Modal isOpen={modalOpen} onClose={closeModal}>
             <div className="modal-content">
               <div className="setTimerContent">
                 <h3 className="selectDuration">Select Duration</h3>
@@ -110,12 +110,14 @@ export function Header({ sprintId, timerTimes, value, setValue, countWords }) {
                 </div>
               </div>
             </div>
-          ) : user ? (
-            <QuestionListCalcSize setServeyInfo={setServeyInfo} />
-          ) : (
+          </Modal>
+        ) : user ? (
+          <QuestionListCalcSize setServeyInfo={setServeyInfo} />
+        ) : (
+          <Modal isOpen={modalOpen} onClose={closeModal}>
             <AuthenticationScreen />
-          )}
-        </Modal>
+          </Modal>
+        )}
       </div>
     </div>
   );

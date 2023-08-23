@@ -80,6 +80,9 @@ export function FormPage({
     closeModal(false);
     setIsStopped(false);
     setStatus(STATUS.STARTED);
+    if (type === "Save") {
+      navigate(0);
+    }
   };
 
   const handleDelete = () => {
