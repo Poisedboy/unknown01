@@ -1,104 +1,20 @@
-import { useState, useEffect } from "react";
 import { FormField } from "./FormField/FormField";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import deleteBin from "../../components/icons/delete.svg";
-import extremelySadIcon from "../../components/icons/Extremely Sad.png";
-import neutralIcon from "../../components/icons/Neutral.png";
-import sadIcon from "../../components/icons/Emoticon - Sad.png";
-import happyIcon from "../../components/icons/Happy.png";
-import extremelyHappyIcon from "../../components/icons/Extremely Happy.png";
 import close from "../../components/icons/close.svg";
-import {
-  addMetaData,
-  deleteSprint,
-  calcDurationAndSpeed,
-  postSprint,
-} from "redux/noteEditorSlice";
 
-const smiles = [
-  { id: 0, title: "excited", img: extremelyHappyIcon },
-  { id: 1, title: "good", img: happyIcon },
-  { id: 2, title: "normal", img: sadIcon },
-  { id: 3, title: "sad", img: neutralIcon },
-  { id: 4, title: "extremely sad", img: extremelySadIcon },
-];
+import { FormHOC } from "./FormHOC";
 
 export function SmallFormPage({
   openModal,
-  closeModal,
-  sprintId,
-  setIsStopped,
-  setStatus,
-  STATUS,
   type,
-  durationSeconds,
+  handleSubmit,
+  handleStateChange,
+  handleCloseModal,
+  handleDelete,
+  smiles,
+  form,
+  setForm,
 }) {
-  const [form, setForm] = useState({
-    title: "",
-    project: "",
-    emotion: "",
-  });
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const speed = useSelector((state) => state.noteEditor.sprint.speed);
-  const userId = useSelector((state) => state.userInfo.user.id);
-  const sprint = useSelector((state) => state.noteEditor.sprint);
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    dispatch(addMetaData({ form, sprintId }));
-  }, [form]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (type === "Save") {
-      dispatch(
-        calcDurationAndSpeed({ duration: durationSeconds, id: sprintId })
-      );
-      if (speed) {
-        dispatch(postSprint({ sprint, userId, token }));
-        navigate("/dashboard");
-      }
-    } else {
-      closeModal(false);
-      setIsStopped(false);
-      setStatus(STATUS.STARTED);
-    }
-  };
-
-  const handleStateChange = (fieldName, value) => {
-    setForm((prevState) => ({
-      ...prevState,
-      [fieldName]: value,
-    }));
-  };
-
-  const handleCloseModal = () => {
-    closeModal(false);
-    setIsStopped(false);
-    setStatus(STATUS.STARTED);
-  };
-
-  const handleDelete = () => {
-    if (type === "Edit") {
-      setForm(() => {
-        return {
-          title: "",
-          project: "",
-          emotion: "",
-        };
-      });
-      closeModal(false);
-      setIsStopped(false);
-      setStatus(STATUS.STARTED);
-    } else if (type === "Save") {
-      dispatch(deleteSprint({ id: sprintId }));
-      navigate("/note-editor");
-    }
-  };
-
   return (
     openModal && (
       <div className="fixed w-full inset-0 top-[165px] flex items-center justify-center z-50">
@@ -168,7 +84,6 @@ export function SmallFormPage({
                 <button
                   onClick={handleDelete}
                   className="mb-7 flex items-center text-[#5C2D8B]"
-                  // onClick={() => navigate("/")}
                 >
                   <img
                     src={deleteBin}
@@ -185,3 +100,6 @@ export function SmallFormPage({
     )
   );
 }
+
+let WithFormPage = FormHOC(SmallFormPage);
+export default WithFormPage;

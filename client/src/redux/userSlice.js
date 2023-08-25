@@ -6,7 +6,6 @@ export const postServey = createAsyncThunk(
   async ({ options, userId, token }, thunkAPI) => {
     try {
       const response = await useAPI.postServey(options, userId, token);
-      console.log("SERVEY", response);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -17,14 +16,18 @@ export const postServey = createAsyncThunk(
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: {},
+    user: {
+      options_servey: "novel",
+    },
   },
   reducers: {
     getUser: (state, action) => {
       state.user = action.payload;
     },
     deleteUserInfo: (state, action) => {
-      state.user = {};
+      state.user = {
+        options_servey: "novel",
+      };
       localStorage.removeItem("token");
     },
   },
@@ -33,7 +36,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(postServey.rejected, (state, action) => {
-      console.log("Post Servey Error", action.payload);
+      console.log(action.payload);
     });
   },
 });

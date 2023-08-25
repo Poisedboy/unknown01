@@ -3,8 +3,8 @@ import "../css/timer.css";
 import { DisplaySVG } from "./DisplaySVG";
 import pauseIcon from "../components/icons/pause.svg";
 import stopIcon from "../components/icons/stop.svg";
-import { FormPage } from "./FormPage/FormPage";
-import { SmallFormPage } from "./FormPage/SmallFormPage";
+import WithFormPage from "./FormPage/FormPage";
+import WithFormPageSmall from "./FormPage/SmallFormPage";
 
 const STATUS = {
   STARTED: "Started",
@@ -85,7 +85,7 @@ export function Timer({ value, isMobile, sprintId }) {
       className={`flex gap-5 ${isMobile ? "justify-between" : "justify-end"}`}
     >
       {smallScreen ? (
-        <SmallFormPage
+        <WithFormPageSmall
           openModal={openModal}
           closeModal={() => setOpenModal(false)}
           sprintId={sprintId}
@@ -96,7 +96,7 @@ export function Timer({ value, isMobile, sprintId }) {
           durationSeconds={durationSeconds}
         />
       ) : (
-        <FormPage
+        <WithFormPage
           openModal={openModal}
           closeModal={() => setOpenModal(false)}
           sprintId={sprintId}

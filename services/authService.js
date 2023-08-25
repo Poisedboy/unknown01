@@ -31,6 +31,6 @@ exports.auth = async function (user) {
       return userFromDB;
     }
   } catch (e) {
-    console.log("Error ", e);
+    console.log(e);
   }
 };

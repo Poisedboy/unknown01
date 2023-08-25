@@ -3,9 +3,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import "../css/auth.css";
 import GoogleLogo from "../components/icons/googleLogo.png";
 import useAPI from "api/serviceApi";
-import { useDispatch, useSelector } from "react-redux";
-import { getToken, getUser } from "redux/userSlice";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getUser } from "redux/userSlice";
 import logo from "../components/icons/logo.png";
 import emptyCap from "../components/icons/Group-empty-cap.svg";
 import smallPen from "../components/icons/Group-small-pen.svg";
@@ -19,7 +18,6 @@ import leftHand from "../components/icons/Group-left-hand.svg";
 import axios from "axios";
 
 export function AuthenticationScreen() {
-  console.log("rerender");
   const [googleData, setGoogleData] = useState(null);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
@@ -52,10 +50,9 @@ export function AuthenticationScreen() {
           }
         );
         const userData = response.data;
-        console.log("USERDATAINSIDE", userData);
         setUser(userData);
       } catch (error) {
-        console.log("ERROR MESSAGE: ", error);
+        console.log(error);
       }
     }
     getUserInfo();
@@ -81,7 +78,7 @@ export function AuthenticationScreen() {
     try {
       login();
     } catch (e) {
-      console.log("Custom LOG ERROR: ", e.message);
+      console.log(e);
     }
   };
 

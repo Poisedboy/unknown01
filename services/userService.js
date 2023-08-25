@@ -10,6 +10,6 @@ exports.updateUserServey = async function (data) {
     const user = await db.from("users").where({ id: userId }).select().first();
     return user;
   } catch (e) {
-    console.log("Error updateSprintInDb: ", e);
+    console.log(e);
   }
 };

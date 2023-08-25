@@ -12,7 +12,7 @@ const useAPI = {
       });
       return response;
     } catch (e) {
-      console.log("registerUser ", e);
+      console.log(e);
     }
   },
   uploadSprint: async (
@@ -30,7 +30,7 @@ const useAPI = {
 
       return response;
     } catch (e) {
-      console.log("post Sprint error: ", e);
+      console.log(e);
     }
   },
   fetchSprints: async (userId, token) => {
@@ -41,7 +41,7 @@ const useAPI = {
       });
       return response;
     } catch (e) {
-      console.log("post Sprint error: ", e);
+      console.log(e);
     }
   },
   sendUpdatedSprint: async (updatedSprint, token) => {
@@ -56,7 +56,7 @@ const useAPI = {
       );
       return response;
     } catch (e) {
-      console.log("update Sprint error: ", e);
+      console.log(e);
     }
   },
   postServey: async (options, userId, token) => {
@@ -71,9 +71,7 @@ const useAPI = {
       );
       return response;
     } catch (e) {
-      console.log("post Servey error: ", e);
-    } finally {
-      console.log("POST SERVEY");
+      console.log(e);
     }
   },
 };
