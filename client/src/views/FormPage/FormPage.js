@@ -15,6 +15,7 @@ function FormPage({
   form,
   setForm,
 }) {
+
   return (
     <>
       <Modal isOpen={openModal}>
