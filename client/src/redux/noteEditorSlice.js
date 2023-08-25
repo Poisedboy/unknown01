@@ -18,7 +18,6 @@ export const getSprints = createAsyncThunk(
   async ({ userId, token }, thunkAPI) => {
     try {
       const response = await useAPI.fetchSprints(userId, token);
-      console.log("fetch", response);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -64,10 +63,10 @@ export const noteEditorSlice = createSlice({
       const existingIndex = state.sprints.findIndex(
         (i) => i.id === action.payload.id
       );
-      const updateInfo = state.sprints.splice(existingIndex, 1, {
+      state.sprints.splice(existingIndex, 1, {
         ...state.sprints[existingIndex],
         title: action.payload.title,
-        emtion: action.payload.emtion,
+        emotion: action.payload.emotion,
       });
       // state.sprints[existingIndex].title = action.payload.title;
       // state.sprints[existingIndex].emtion = action.payload.emtion;
@@ -115,16 +114,16 @@ export const noteEditorSlice = createSlice({
       state.sprints.push(action.payload);
     });
     builder.addCase(postSprint.rejected, (state, action) => {
-      console.log("Post Sprint Error", action.payload);
+      console.log(action.payload);
     });
     builder.addCase(getSprints.fulfilled, (state, action) => {
       state.sprints = action.payload;
     });
     builder.addCase(getSprints.rejected, (state, action) => {
-      console.log("Fetch Sprints Error", action.payload);
+      console.log(action.payload);
     });
     builder.addCase(updateSprint.rejected, (state, action) => {
-      console.log("Update Sprint Error", action.payload);
+      console.log(action.payload);
     });
   },
 });

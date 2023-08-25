@@ -18,7 +18,6 @@ import leftHand from "../components/icons/Group-left-hand.svg";
 import axios from "axios";
 
 export function AuthenticationScreen() {
-  console.log("rerender");
   const [googleData, setGoogleData] = useState(null);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
@@ -51,10 +50,9 @@ export function AuthenticationScreen() {
           }
         );
         const userData = response.data;
-        console.log("USERDATAINSIDE", userData);
         setUser(userData);
       } catch (error) {
-        console.log("ERROR MESSAGE: ", error);
+        console.log(error);
       }
     }
     getUserInfo();
@@ -80,7 +78,7 @@ export function AuthenticationScreen() {
     try {
       login();
     } catch (e) {
-      console.log("Custom LOG ERROR: ", e.message);
+      console.log(e);
     }
   };
 

@@ -6,7 +6,6 @@ export const postServey = createAsyncThunk(
   async ({ options, userId, token }, thunkAPI) => {
     try {
       const response = await useAPI.postServey(options, userId, token);
-      console.log("SERVEY", response);
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
@@ -37,7 +36,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
     });
     builder.addCase(postServey.rejected, (state, action) => {
-      console.log("Post Servey Error", action.payload);
+      console.log(action.payload);
     });
   },
 });

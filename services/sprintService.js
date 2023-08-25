@@ -22,7 +22,7 @@ exports.postSprint = async function (sprint) {
       throw new Error("Some ERROR`s just happened!");
     }
   } catch (e) {
-    console.log("Error ", e);
+    console.log(e);
   }
 };
 
@@ -36,7 +36,7 @@ exports.fetchSprints = async function (userId) {
       return sprints;
     }
   } catch (e) {
-    console.log("Error getSprints", e);
+    console.log(e);
   }
 };
 
@@ -53,6 +53,6 @@ exports.updateSprintInDb = async function (updatedSprint) {
       });
     return updatedInDb;
   } catch (e) {
-    console.log("Error updateSprintInDb: ", e);
+    console.log(e);
   }
 };
